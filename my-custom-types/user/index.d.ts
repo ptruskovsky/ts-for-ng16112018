@@ -1,0 +1,3 @@
+interface IAge {
+    age: number;
+}
