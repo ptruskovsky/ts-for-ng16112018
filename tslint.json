@@ -69,7 +69,7 @@
     ],
     "max-classes-per-file": [
       true,
-      1
+      5
     ],
     "max-file-line-count": [
       true,
