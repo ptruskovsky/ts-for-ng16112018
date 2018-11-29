@@ -23,3 +23,20 @@ function summator(...params: (string | number)[]): number {
     return acc + num;
   }, 0);
 }
+
+/*
+  Написать функцию getUnique(arr), которая принимает аргументом неограниченое число аргументов,
+  и возвращает массив уникальных элементов. Аргумент не должен изменяться.
+  Порядок элементов результирующего массива должен совпадать с порядком,
+  в котором они встречаются в оригинальной структуре.
+*/
+/* tslint:disable no-any */
+function getUnique(list: any[]): any[] {
+  return Array.from(
+    list.reduce((acc: Set<any>, el: any) => {
+      acc.add(el);
+      return acc;
+    }, new Set()),
+  );
+}
+/* tslint:enable no-any */
