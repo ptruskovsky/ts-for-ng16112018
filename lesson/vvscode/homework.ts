@@ -30,7 +30,7 @@ function summator(...params: (string | number)[]): number {
   Порядок элементов результирующего массива должен совпадать с порядком,
   в котором они встречаются в оригинальной структуре.
 */
-/* tslint:disable no-any */
+// tslint:disable no-any
 function getUnique(list: any[]): any[] {
   return Array.from(
     list.reduce((acc: Set<any>, el: any) => {
@@ -39,4 +39,18 @@ function getUnique(list: any[]): any[] {
     }, new Set()),
   );
 }
-/* tslint:enable no-any */
+// tslint:enable no-any
+
+/*
+Дописать функцию toMatrix(data, rowSize), которая принимает аргументом массив и число,
+возвращает новый массив. Число показывает количество элементов в подмассивах,
+элементы подмассивов беруться из массива data.
+Оригинальный массив не должен быть изменен.
+ */
+// tslint:disable no-any
+function toMatrix(data: any[], rowSize: number): any[][] {
+  return data.map((_el1: any) =>
+    Array.from({ length: rowSize }).map((_el2: any) => [...data]),
+  );
+}
+// tslint:enable no-any
