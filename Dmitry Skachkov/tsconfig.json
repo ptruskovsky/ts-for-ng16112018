@@ -1,0 +1,10 @@
+{
+    "extends": "../tsconfig.json",
+    "include": ["ts-homework.ts"],
+    "compilerOptions": {
+        "target": "es5",
+        "lib": [
+            "es2016"
+        ],
+    }
+}
