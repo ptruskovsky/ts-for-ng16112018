@@ -1,4 +1,5 @@
-// ./../../node_modules/.bin/karma start
+// RUN: ./../../node_modules/.bin/karma start
+
 import { Homework, NumberString, Primitive } from './homework';
 
 const hw: Homework = new Homework();
