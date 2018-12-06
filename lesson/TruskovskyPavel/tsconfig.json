@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["homework.ts"],
+  "include": ["homework.ts", "homework.spec.ts"],
   "compilerOptions": {
     "sourceMap": true,
     "outDir": "./out",

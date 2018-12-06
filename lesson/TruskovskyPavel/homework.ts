@@ -1,6 +1,7 @@
-type Primitive = string | number | boolean | null | undefined;
-type NumberString = string | number;
-class Homework {
+export type Primitive = string | number | boolean | null | undefined;
+export type NumberString = string | number;
+
+export class Homework {
    public constructor() {
    }
 
