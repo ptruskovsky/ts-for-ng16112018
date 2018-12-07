@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["homework.ts"],
+  "compilerOptions": {
+    "lib": ["es2016", "es2017"]
+  }
+}
