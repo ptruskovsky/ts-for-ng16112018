@@ -1,4 +1,5 @@
 // RUN: ./../../node_modules/.bin/karma start
+//  export CHROME_BIN="/usr/bin/chromium-browser --no-sandbox"
 
 import { Homework, NumberString, Primitive } from './homework';
 
