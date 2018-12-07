@@ -31,9 +31,10 @@ function summator(...params: (string | number)[]): number {
   в котором они встречаются в оригинальной структуре.
 */
 // tslint:disable no-any
-function getUnique(list: any[]): any[] {
+type primitive = string | number;
+function getUnique(list: primitive[]): primitive[] {
   return Array.from(
-    list.reduce((acc: Set<any>, el: any) => {
+    list.reduce((acc: Set<primitive>, el: primitive) => {
       acc.add(el);
       return acc;
     }, new Set()),

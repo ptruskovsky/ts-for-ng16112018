@@ -2,8 +2,6 @@ export type Primitive = string | number | boolean | null | undefined;
 export type NumberString = string | number;
 
 export class Homework {
-   public constructor() {
-   }
 
    public isInArray(first: Primitive[], ...rest: Primitive[]): boolean {
       if (!first || !rest ) {

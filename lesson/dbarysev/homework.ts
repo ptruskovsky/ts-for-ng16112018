@@ -15,7 +15,7 @@ export function isInArray(array: sn[], ...values: sn[]): boolean {
 export function summator(...values: sn[]): number {
     return Number(values.reduce((acc: number, current: sn): number => {
         const num: number = isNumber(current) ? current : Number(current);
-        if (isNaN(num)) {
+        if (Number.isNaN(num)) {
             throw 'One of the values is not a number ' + current;
         }
         return acc + num;
