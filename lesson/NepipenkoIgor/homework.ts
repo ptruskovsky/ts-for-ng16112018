@@ -31,3 +31,7 @@ function isInArray (param1: any[], ...param2: any[]): boolean {
 //     return [];
 // }
 
+export function sum(a: number, _b: number): number {
+    return a + _b;
+}
+

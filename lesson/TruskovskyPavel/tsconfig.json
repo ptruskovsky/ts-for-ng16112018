@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["homework.ts", "homework.spec.ts"],
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "./out",
+    "target": "es5",
+    "lib": ["es2016"]
+  }
+}
