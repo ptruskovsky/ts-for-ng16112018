@@ -41,9 +41,6 @@
 //     });
 // }
 
-import { interval, Observable } from 'rxjs';
-import { combineLatest, take } from 'rxjs/operators';
-
 
 // MAP
 // const sequence1$: Observable<number> = interval(1000);
@@ -133,13 +130,64 @@ import { combineLatest, take } from 'rxjs/operators';
                  combineLates((x,y)=>x+y)
   sequence2$  ----[0,0][0,1]--[0,2]-[1,2]-[1,3]--[2,3][2,4]--[3,4]|
  */
-const sequence1$: Observable<number> = interval(500)
-    .pipe(take(4));
-const sequence2$: Observable<number> = interval(300)
-    .pipe(
-        take(5)
-    );
-// tslint:disable-next-line
-sequence1$.pipe(combineLatest(sequence2$))
-// tslint:disable-next-line
-    .subscribe((v: number[]) => console.log(v), () => {}, () => {console.log('completed')})
+// const sequence1$: Observable<number> = interval(500)
+//     .pipe(take(4));
+// const sequence2$: Observable<number> = interval(300)
+//     .pipe(
+//         take(5)
+//     );
+// // tslint:disable-next-line
+// sequence1$.pipe(combineLatest(sequence2$))
+// // tslint:disable-next-line
+//     .subscribe((v: number[]) => console.log(v), () => {
+//     }, () => {
+//         // tslint:disable-next-line
+//         console.log('completed')
+//     });
+
+//
+// export function onInput(event: KeyboardEvent): void {
+//     const el: HTMLInputElement = event.target as HTMLInputElement;
+//     const value = el.value;
+// }
+
+// const s1: Observable<number> = interval(1000);
+//
+// s1.subscribe(console.log);
+//
+// s1.pipe(take(5))
+// // tslint:disable-next-line
+//     .subscribe(console.log, () => {
+//     }, () => {
+//         // tslint:disable-next-line
+//         console.log('complete')
+//     });
+// import { Observable } from 'rxjs';
+// import 'rxjs/add/operator/map';
+// import 'rxjs/add/observable/from';
+//
+//
+// Observable.of(1, 2, 3);
+
+// import { interval, Observable, of } from 'rxjs';
+// import { catchError, delay, map, retryWhen, zip } from 'rxjs/operators';
+//
+// const sequence$: Observable<string> = interval(500)
+//     .pipe(zip<unknown, string>(of('a', 'b', 'c', 1, 's'), (_x: number, y: string) => y));
+//
+// const result$: Observable<string> = sequence$.pipe(
+//     map((x: string) => x.toUpperCase())
+// );
+//
+// result$
+//     .pipe(
+//         // tslint:disable-next-line
+//         catchError((_err: any, _out: Observable<string>) => {
+//             // console.log(_err);
+//              return of('complete');
+//         })
+//         // retryWhen((errObs: Observable<string>) => errObs.pipe(delay(2000)))
+//     )
+//     .subscribe((v: string) => {
+//         console.log(v);
+//     });
