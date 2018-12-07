@@ -11,7 +11,7 @@ function isInArray(array: primitive[], ...items: primitive[]): boolean {
 
 function summator(...items: sn[]): number {
     const numbers: number[] = items.map((item: primitive) => Number(item));
-    return numbers.reduce((sum: number, num: number) => sum + num);
+    return numbers.reduce((sum: number, num: number) => sum + num, 0);
 }
 
 function getUnique(array: primitive[]): primitive[] {
