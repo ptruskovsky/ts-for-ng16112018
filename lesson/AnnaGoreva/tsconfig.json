@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["homework.ts","./custom-types/index.d.ts", "./**/*"],
+  "lib": ["es2015"]
+}
