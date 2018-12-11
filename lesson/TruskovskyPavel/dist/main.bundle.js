@@ -95,7 +95,7 @@ var fromEvent_1 = __webpack_require__(1);
 var operators_1 = __webpack_require__(21);
 var AirportRequestModel_1 = __webpack_require__(202);
 var asap_1 = __webpack_require__(203);
-var API_URL = 'http://form.merlinticket.by/publicapi/Form/GetAirportOrCity';
+var API_URL = 'https://form.flymerlin.by/publicapi/Form/GetAirportOrCity';
 var ID_QUERY_CONTAINER = 'query';
 var ID_RESULTS_CONTAINER = 'result';
 function getInputElement() {
