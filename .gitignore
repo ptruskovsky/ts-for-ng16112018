@@ -4,7 +4,6 @@ node_modules
 .DS_Store
 .idea/
 !webpack.config.js
-dist/
 coverage
 package-lock.json
 class-work.js
