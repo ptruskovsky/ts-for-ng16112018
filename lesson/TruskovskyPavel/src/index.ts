@@ -4,7 +4,7 @@ import { AirportResponseModel } from './AirportResponseModel';
 import { AirportRequestModel } from './AirportRequestModel';
 import { asap } from 'rxjs/internal/scheduler/asap';
 
-const API_URL: string = 'https://form.flymerlin.by/publicapi/Form/GetAirportOrCity';
+const API_URL: string = 'http://form.merlinticket.by/publicapi/Form/GetAirportOrCity';
 const ID_QUERY_CONTAINER: string = 'query';
 const ID_RESULTS_CONTAINER: string = 'result';
 
