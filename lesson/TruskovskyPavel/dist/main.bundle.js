@@ -93,74 +93,34 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var fromEvent_1 = __webpack_require__(1);
 var operators_1 = __webpack_require__(21);
-var AirportRequestModel_1 = __webpack_require__(202);
-var asap_1 = __webpack_require__(203);
-var API_URL = 'https://form.flymerlin.by/publicapi/Form/GetAirportOrCity';
+var asap_1 = __webpack_require__(202);
+var API_URL = 'http://localhost:50471/publicapi/Form/GetAirportOrCity';
 var ID_QUERY_CONTAINER = 'query';
 var ID_RESULTS_CONTAINER = 'result';
-function getInputElement() {
-    return document.getElementById(ID_QUERY_CONTAINER);
-}
-function getResultElement() {
-    return document.getElementById(ID_RESULTS_CONTAINER);
-}
-function clearResult() {
-    var element = getResultElement();
-    if (element) {
-        element.innerHTML = '';
-    }
-}
-function createRequest(queryString) {
-    var req = new AirportRequestModel_1.AirportRequestModel();
-    req.queryString = queryString;
-    req.langCode = 'ru';
-    return req;
-}
-function urlFromRequest(request) {
-    return API_URL + '?queryString=' + request.queryString + '&langCode=' + request.langCode;
-}
 function doRequest(queryString) {
-    clearResult();
-    if (!queryIsValid(queryString)) {
-        return new Promise(function (reject) {
-            return reject();
-        });
-    }
-    var request = createRequest(queryString);
-    var url = urlFromRequest(request);
-    console.log('executing request: ' + request.queryString);
+    var url = API_URL + '?queryString=' + queryString + '&langCode=ru';
+    console.log('executing request: ' + queryString);
     return fetch(url).then(function (res) { return res.json(); });
 }
 function displayResult(result, container) {
-    if (!result) {
+    if (!result || !container) {
         return;
     }
     var divs = result.map(function (model) {
         return "<div>" + model.name + " (" + (model.airportId === null ? 'город' : 'aэропорт') + ")</div>";
     });
-    if (container !== null && divs.length > 0) {
-        container.insertAdjacentHTML('afterbegin', divs.reduce(function (a, b) { return a + b; }, ''));
-    }
+    container.insertAdjacentHTML('afterbegin', divs.reduce(function (a, b) { return a + b; }, ''));
 }
-function queryIsValid(queryString) {
-    if (!queryString) {
-        return false;
-    }
-    if (queryString.trim().length < 3) {
-        return false;
-    }
-    return true;
-}
-function inputIsValid(input) {
-    return input !== null;
-}
-var inputElement = getInputElement();
-var resultElement = getResultElement();
-if (inputIsValid((inputElement)) && inputIsValid((resultElement))) {
-    fromEvent_1.fromEvent(inputElement, 'input')
-        .pipe(operators_1.observeOn(asap_1.asap), operators_1.debounceTime(300), operators_1.switchMap(function () { return doRequest(inputElement.value); }))
-        .subscribe(function (value) { return displayResult(value, resultElement); });
-}
+var inputElement = document.getElementById(ID_QUERY_CONTAINER);
+var resultElement = document.getElementById(ID_RESULTS_CONTAINER);
+fromEvent_1.fromEvent(inputElement, 'input')
+    .pipe(operators_1.observeOn(asap_1.asap), operators_1.debounceTime(300), operators_1.filter(function () {
+    return (inputElement !== null && resultElement !== null && !!inputElement.value
+        && inputElement.value.trim().length > 2);
+}), operators_1.tap(function () { if (resultElement) {
+    resultElement.innerHTML = '';
+} }), operators_1.switchMap(function () { return doRequest(inputElement.value); }))
+    .subscribe(function (value) { return displayResult(value, resultElement); });
 
 
 /***/ }),
@@ -11442,30 +11402,13 @@ function zipAll(project) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var AirportRequestModel = /** @class */ (function () {
-    function AirportRequestModel() {
-        this.langCode = 'ru';
-        this.queryString = '';
-    }
-    return AirportRequestModel;
-}());
-exports.AirportRequestModel = AirportRequestModel;
-
-
-/***/ }),
-/* 203 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var AsapAction_1 = __webpack_require__(204);
-var AsapScheduler_1 = __webpack_require__(208);
+var AsapAction_1 = __webpack_require__(203);
+var AsapScheduler_1 = __webpack_require__(207);
 exports.asap = new AsapScheduler_1.AsapScheduler(AsapAction_1.AsapAction);
 //# sourceMappingURL=asap.js.map
 
 /***/ }),
-/* 204 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11484,8 +11427,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Immediate_1 = __webpack_require__(205);
-var AsyncAction_1 = __webpack_require__(206);
+var Immediate_1 = __webpack_require__(204);
+var AsyncAction_1 = __webpack_require__(205);
 var AsapAction = (function (_super) {
     __extends(AsapAction, _super);
     function AsapAction(scheduler, work) {
@@ -11519,7 +11462,7 @@ exports.AsapAction = AsapAction;
 //# sourceMappingURL=AsapAction.js.map
 
 /***/ }),
-/* 205 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11547,7 +11490,7 @@ exports.Immediate = {
 //# sourceMappingURL=Immediate.js.map
 
 /***/ }),
-/* 206 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11566,7 +11509,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(207);
+var Action_1 = __webpack_require__(206);
 var AsyncAction = (function (_super) {
     __extends(AsyncAction, _super);
     function AsyncAction(scheduler, work) {
@@ -11654,7 +11597,7 @@ exports.AsyncAction = AsyncAction;
 //# sourceMappingURL=AsyncAction.js.map
 
 /***/ }),
-/* 207 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11689,7 +11632,7 @@ exports.Action = Action;
 //# sourceMappingURL=Action.js.map
 
 /***/ }),
-/* 208 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11708,7 +11651,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var AsyncScheduler_1 = __webpack_require__(209);
+var AsyncScheduler_1 = __webpack_require__(208);
 var AsapScheduler = (function (_super) {
     __extends(AsapScheduler, _super);
     function AsapScheduler() {
@@ -11741,7 +11684,7 @@ exports.AsapScheduler = AsapScheduler;
 //# sourceMappingURL=AsapScheduler.js.map
 
 /***/ }),
-/* 209 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11760,7 +11703,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Scheduler_1 = __webpack_require__(210);
+var Scheduler_1 = __webpack_require__(209);
 var AsyncScheduler = (function (_super) {
     __extends(AsyncScheduler, _super);
     function AsyncScheduler(SchedulerAction, now) {
@@ -11814,7 +11757,7 @@ exports.AsyncScheduler = AsyncScheduler;
 //# sourceMappingURL=AsyncScheduler.js.map
 
 /***/ }),
-/* 210 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
