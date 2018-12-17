@@ -94,33 +94,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fromEvent_1 = __webpack_require__(1);
 var operators_1 = __webpack_require__(21);
 var asap_1 = __webpack_require__(202);
-var API_URL = 'http://localhost:50471/publicapi/Form/GetAirportOrCity';
+var API_URL = 'https://form.flymerlin.by/publicapi/Form/GetAirportOrCity';
 var ID_QUERY_CONTAINER = 'query';
 var ID_RESULTS_CONTAINER = 'result';
-function doRequest(queryString) {
-    var url = API_URL + '?queryString=' + queryString + '&langCode=ru';
-    console.log('executing request: ' + queryString);
-    return fetch(url).then(function (res) { return res.json(); });
-}
-function displayResult(result, container) {
-    if (!result || !container) {
-        return;
-    }
-    var divs = result.map(function (model) {
-        return "<div>" + model.name + " (" + (model.airportId === null ? 'город' : 'aэропорт') + ")</div>";
-    });
-    container.insertAdjacentHTML('afterbegin', divs.reduce(function (a, b) { return a + b; }, ''));
-}
 var inputElement = document.getElementById(ID_QUERY_CONTAINER);
 var resultElement = document.getElementById(ID_RESULTS_CONTAINER);
+function doRequest(queryString) {
+    console.log('executing request: ' + queryString);
+    return fetch(API_URL + '?queryString=' + queryString + '&langCode=ru').then(function (res) { return res.json(); });
+}
+function render(response) {
+    if (!response || !resultElement) {
+        return;
+    }
+    var divs = response.map(function (model) {
+        return "<div>" + model.name + " (" + (model.airportId === null ? 'город' : 'aэропорт') + ")</div>";
+    });
+    resultElement.insertAdjacentHTML('afterbegin', divs.reduce(function (a, b) { return a + b; }, ''));
+}
 fromEvent_1.fromEvent(inputElement, 'input')
-    .pipe(operators_1.observeOn(asap_1.asap), operators_1.debounceTime(300), operators_1.filter(function () {
-    return (inputElement !== null && resultElement !== null && !!inputElement.value
-        && inputElement.value.trim().length > 2);
-}), operators_1.tap(function () { if (resultElement) {
-    resultElement.innerHTML = '';
-} }), operators_1.switchMap(function () { return doRequest(inputElement.value); }))
-    .subscribe(function (value) { return displayResult(value, resultElement); });
+    .pipe(operators_1.observeOn(asap_1.asap), operators_1.debounceTime(300), operators_1.filter(function () { return !!inputElement && !!inputElement.value && inputElement.value.length > 2; }), operators_1.tap(function () { return !!resultElement ? resultElement.innerHTML = '' : ''; }), operators_1.switchMap(function () { return doRequest(inputElement.value); })).subscribe(render);
 
 
 /***/ }),
