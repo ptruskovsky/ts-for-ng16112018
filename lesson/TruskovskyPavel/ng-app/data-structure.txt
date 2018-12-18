@@ -1,8 +1,8 @@
-Пример данных 
+пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 
 {
    img:string,
    address:string,
-   phone:  number   // дополнительно задание pipe для форматирования
+   phone:  number   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ pipe пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
    weather: {
       title:string,
       icon:string,
@@ -17,3 +17,6 @@
    }, 
    type: string
 }
+
+// how to build for github: ng build --prod --base-href "https://ptruskovsky.github.io/ts-for-ng16112018/lesson/TruskovskyPavel/ng-app/widget-app/dist/widget-app/"
+
