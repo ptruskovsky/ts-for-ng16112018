@@ -2,62 +2,22 @@
 <div class="element-left-bottom">
   <div class="ele-strip">
     <ul>
-      <li><a href="#">Hotel</a></li>
-      <li><a href="#">Fishing</a></li>
-      <li><a href="#">Tours</a></li>
-      <li class="anc-bor"><a href="#">Weather</a></li>
+      <ng-container *ngIf="widgetItems$ | async as typedItems; else loadingTemplate">
+        <li *ngFor="let typedItem of typedItems | typeFilter; index as j; last as isLast" [ngClass]="{'anc-bor': isLast}"><a href="#">{{typedItem}}</a></li>
+      </ng-container>
     </ul>
   </div>
   <div class="village">
-    <h3>Righteous indignation & like</h3>
+    <h3>Гостиницы и информация</h3>
     <span class="line"> </span>
     <div class="activity_box">
       <div class="scrollbar" id="style-2">
-        <div class="activity-row">
-          <div class="activity-desc">
-            <h5>Resort Address</h5>
-            <p>Sed perspiciatis</p>
-            <p>Et harum quidem</p>
-            <h6>Tel:+1285 968 685</h6>
-          </div>
-          <div class="activity-img">
-            <ul>
-              <li><img src='../../assets/res.jpg'  alt=""/></li>
-              <li><img src='../../assets/r1.jpg'  alt=""/></li>
-            </ul>
-          </div>
-          <div class="clear"> </div>
-        </div>
-        <div class="activity-row">
-          <div class="activity-desc">
-            <h5>Resort Address</h5>
-            <p>Sed ut perspiciatis</p>
-            <p>Et harum quidem</p>
-            <h6>Tel:+1285 968 685</h6>
-          </div>
-          <div class="activity-img">
-            <ul>
-              <li><img src='../../assets/res.jpg'  alt=""/></li>
-              <li><img src='../../assets/r1.jpg'  alt=""/></li>
-            </ul>
-          </div>
-          <div class="clear"> </div>
-        </div>
-        <div class="activity-row">
-          <div class="activity-desc">
-            <h5>Resort Address</h5>
-            <p>Sed ut perspiciatis</p>
-            <p>Et harum quidem</p>
-            <h6>Tel:+1285 968 685</h6>
-          </div>
-          <div class="activity-img">
-            <ul>
-              <li><img src='../../assets/res.jpg'  alt=""/></li>
-              <li><img src='../../assets/r1.jpg'  alt=""/></li>
-            </ul>
-          </div>
-          <div class="clear"> </div>
-        </div>
+        <ng-container *ngIf="widgetItems$ | async as widgetItems; else loadingTemplate">
+          <ng-container *ngFor="let item of widgetItems; index as i">
+            <app-widget-item [widgetItem] = item></app-widget-item>
+          </ng-container>
+        </ng-container>
+        <ng-template #loadingTemplate>Загрузка...</ng-template>
       </div>
     </div>
   </div>
