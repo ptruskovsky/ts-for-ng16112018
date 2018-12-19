@@ -2,12 +2,13 @@ import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { debounceTime, filter, observeOn, switchMap, tap } from 'rxjs/operators';
 import { AirportResponseModel } from './AirportResponseModel';
 import { asap } from 'rxjs/internal/scheduler/asap';
+import { Observable } from 'rxjs';
 
 const API_URL: string = 'https://form.flymerlin.by/publicapi/Form/GetAirportOrCity';
 const ID_QUERY_CONTAINER: string = 'query';
 const ID_RESULTS_CONTAINER: string = 'result';
 const inputElement: HTMLInputElement | null = document.getElementById(ID_QUERY_CONTAINER) as HTMLInputElement;
-const resultElement: HTMLElement | null = document.getElementById(ID_RESULTS_CONTAINER);
+const resultElement: HTMLElement | null = document.getElementById(ID_RESULTS_CONTAINER) as HTMLElement;
 
 function doRequest(queryString: string): Promise<AirportResponseModel[]> {
     console.log('executing request: ' + queryString);
@@ -24,11 +25,23 @@ function render(response: AirportResponseModel[]): void {
     resultElement.insertAdjacentHTML('afterbegin', divs.reduce((a: string, b: string) => a + b, ''));
 }
 
-fromEvent(inputElement, 'input')
-    .pipe(
-        observeOn(asap),
-        debounceTime(300),
-        filter(() => !!inputElement && !!inputElement.value && inputElement.value.length > 2),
-        tap(() => !!resultElement ? resultElement.innerHTML = '' : ''),
-        switchMap(() => doRequest(inputElement.value))
-    ).subscribe(render);
+// requestResultSource$: Promise<AirportResponseModel[]>
+function run(result: HTMLElement, eventSource$: Observable<Event>,
+            ): Observable<AirportResponseModel[]> {
+    return eventSource$
+        .pipe(
+            observeOn(asap),
+            debounceTime(300),
+            filter((x: Event) => !!(x.target as HTMLInputElement) &&
+                !!(x.target as HTMLInputElement).value && (x.target as HTMLInputElement).value.length > 2),
+            tap(() => !!result ? result.innerHTML = '' : ''),
+            tap( (x: Event) => console.log('input value: ' + (x.target as HTMLInputElement).value)),
+            switchMap((x: Event) => doRequest((x.target as HTMLInputElement).value))
+        );
+}
+
+run(
+    resultElement,
+    fromEvent(inputElement, 'input')
+
+).subscribe(render);
