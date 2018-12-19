@@ -44,5 +44,4 @@ run(
     resultElement,
     fromEvent(inputElement, 'input'),
     doRequest
-
 ).subscribe(render);
