@@ -26,8 +26,8 @@ function render(response: AirportResponseModel[]): void {
 }
 
 // requestResultSource$: Promise<AirportResponseModel[]>
-function run(result: HTMLElement, eventSource$: Observable<Event>,
-            ): Observable<AirportResponseModel[]> {
+function run(result: HTMLElement, eventSource$: Observable<Event>,  dataRequestFunction: Function):
+    Observable<AirportResponseModel[]> {
     return eventSource$
         .pipe(
             observeOn(asap),
@@ -36,12 +36,13 @@ function run(result: HTMLElement, eventSource$: Observable<Event>,
                 !!(x.target as HTMLInputElement).value && (x.target as HTMLInputElement).value.length > 2),
             tap(() => !!result ? result.innerHTML = '' : ''),
             tap( (x: Event) => console.log('input value: ' + (x.target as HTMLInputElement).value)),
-            switchMap((x: Event) => doRequest((x.target as HTMLInputElement).value))
+            switchMap((x: Event) => dataRequestFunction((x.target as HTMLInputElement).value))
         );
 }
 
 run(
     resultElement,
-    fromEvent(inputElement, 'input')
+    fromEvent(inputElement, 'input'),
+    doRequest
 
 ).subscribe(render);
